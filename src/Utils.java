@@ -3,17 +3,18 @@ public class Utils {
 
 	public final static String CHARSET = "UTF-8";
 
-	public static CharSequence bytesToHex(byte[] in) {
+	public static CharSequence bytesToHex(byte[] in, int length) {
 
-		return bytesToHex(in, "0x", " ");
+		return bytesToHex(in, length, "0x", " ");
 	}
 
-	public static CharSequence bytesToHex(byte[] in, CharSequence pre, CharSequence post) {
+	public static CharSequence bytesToHex(byte[] in, int length, CharSequence pre, CharSequence post) {
 
 		StringBuilder sb = new StringBuilder();
 		boolean isFirst = true;
 
-		for (byte b : in) {
+		for (int i = 0; i < length; i ++) {
+			byte b = in[i];
 			if (isFirst) {
 				isFirst = false;
 			} else {

@@ -58,7 +58,7 @@ public class Host {
 			clientPort = packet.getPort(); // must get Port of where client sends packet from
 
 			System.out.println("Host forwarding request from: " + clientAddress.getHostAddress() + ":" + clientPort);
-			System.out.println("Request bytes: " + Utils.bytesToHex(packet.getData()));
+			System.out.println("Request bytes: " + Utils.bytesToHex(packet.getData(), packet.getLength()));
 			System.out.println("Request string: " + new Packet(data, length).toString() + "\n");
 
 			// forward packet to server
@@ -72,8 +72,8 @@ public class Host {
 			socket.receive(packet);
 			data = packet.getData();
 
-			System.out.println("Response bytes: " + Utils.bytesToHex(packet.getData()));
-			System.out.println("Resonse string: ");
+			System.out.println("Response bytes: " + Utils.bytesToHex(packet.getData(), packet.getLength()));
+			System.out.print("Resonse string: ");
 			for (int i = 0; i < packet.getLength(); i++) {
 				System.out.print(data[i] + " ");
 			}

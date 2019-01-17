@@ -67,7 +67,7 @@ public class Client {
 	public void sendRequest(Packet req) throws CommunicationException {
 
 		byte[] data = req.generatePacketData();
-		System.out.println("Client Sending (Byte): " + Utils.bytesToHex(data));
+		System.out.println("\nClient Sending (Byte): " + Utils.bytesToHex(data, data.length));
 		System.out.println("Client Sending (String): " + req.toString());
 
 		try {
@@ -93,9 +93,9 @@ public class Client {
 
 		// print response data
 		data = packet.getData();
-		System.out.println("Client received (bytes): " + Utils.bytesToHex(data));
-		System.out.println("Client received (string): ");
-		for (int i = 0; i < packet.getLength(); i++) {
+		System.out.println("Client received (bytes): " + Utils.bytesToHex(data, 4));
+		System.out.print("Client received (string): ");
+		for (int i = 0; i < 4; i++) {
 			System.out.print(data[i] + " ");
 		}
 		System.out.println();

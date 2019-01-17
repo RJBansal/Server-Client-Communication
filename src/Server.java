@@ -36,7 +36,7 @@ public class Server {
 
 		try {
 			// listen on ClientPort for incoming packets
-			System.out.println("Server connecting on: " + clientAddress.getHostAddress() + ":" + PORT);
+			System.out.println("Server connecting on: " + clientAddress.getHostAddress() + ":" + PORT + "\n");
 			receiveSocket = new DatagramSocket(PORT, clientAddress);
 		} catch (SocketException e) {
 			throw new CommunicationException("Unable to establish connection");
@@ -56,8 +56,8 @@ public class Server {
 		}
 
 		data = packet.getData();
-		System.out.println("Client received (bytes): " + Utils.bytesToHex(data));
-		System.out.println("Client received (string): " + new Packet(data, packet.getLength()).toString());
+		System.out.println("Server received (bytes): " + Utils.bytesToHex(data, packet.getLength()));
+		System.out.println("Server received (string): " + new Packet(data, packet.getLength()).toString());
 
 		respond(packet);
 	}
@@ -80,14 +80,13 @@ public class Server {
 				throw new CommunicationException("Invalid request received");
 			}
 
-			System.out.print("Server responding to " + packet.getAddress().getHostAddress() + ":" + packet.getPort()
-					+ " : " + Utils.bytesToHex(data));
-			System.out.println("Response bytes: " + Utils.bytesToHex(packet.getData()));
-			System.out.println("Response string: ");
-			for (int i = 0; i < packet.getLength(); i++) {
+			System.out.println("Server responding to " + packet.getAddress().getHostAddress() + ":" + packet.getPort());
+			System.out.println("Response bytes: " + Utils.bytesToHex(packet.getData(), packet.getLength()));
+			System.out.print("Response string: ");
+			for (int i = 0; i < data.length; i++) {
 				System.out.print(data[i] + " ");
 			}
-			System.out.println();
+			System.out.println("\n");
 
 			// send response back to client
 			sendSocket = new DatagramSocket();

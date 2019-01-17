@@ -146,11 +146,18 @@ public class Packet {
 	public String toString() {
 
 		StringBuilder string = new StringBuilder();
-		string.append(mode);
-		string.append(filename);
-		string.append((byte) 0);
-		string.append(mode);
-		string.append((byte) 0);
+		if (request == Request.READ) {
+			string.append(READ[0] + " ");
+			string.append(READ[1] + " ");
+		} else if (request == Request.WRITE) {
+			string.append(WRITE[0] + " ");
+			string.append(WRITE[1] + " ");
+		}
+		string.append(mode + " ");
+		string.append(filename + " ");
+		string.append((byte) 0 + " ");
+		string.append(mode + " ");
+		string.append((byte) 0 + " ");
 
 		return string.toString();
 	}
