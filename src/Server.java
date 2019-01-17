@@ -7,90 +7,97 @@ import java.net.SocketException;
 public class Server {
 
 	public final static int PORT = 69;
-	public final static byte[] READ_RESPONSE = {0, 3, 0, 1};
-	public final static byte[] WRITE_RESPONSE = {0, 4, 0, 0};
-	
+	public final static byte[] READ_RESPONSE = { 0, 3, 0, 1 };
+	public final static byte[] WRITE_RESPONSE = { 0, 4, 0, 0 };
+
 	public static DatagramSocket receiveSocket = null;
 	public static DatagramSocket sendSocket = null;
 	public static DatagramPacket packet = null;
 	public static byte[] data = new byte[128];
 	public static InetAddress clientAddress = null;
-	
+
 	public static void main(String[] args) throws Exception {
-		
-		//start server and listen to incoming packages
-		Server server = new Server(); 
+
+		// start server and listen to incoming packages
+		Server server = new Server();
 		server.connect();
-		
-		while(true) {
+
+		while (true) {
 			server.listen();
 		}
 	}
-	
+
 	public Server() throws Exception {
-		
+
 		clientAddress = InetAddress.getLocalHost();
 	}
-	
+
 	public void connect() throws CommunicationException {
-		
+
 		try {
-			//listen on ClientPort for incoming packets
+			// listen on ClientPort for incoming packets
 			System.out.println("Server connecting on: " + clientAddress.getHostAddress() + ":" + PORT);
 			receiveSocket = new DatagramSocket(PORT, clientAddress);
 		} catch (SocketException e) {
 			throw new CommunicationException("Unable to establish connection");
-		}	
+		}
 	}
-	
+
 	public void listen() throws CommunicationException {
-		
-		//wait for request from client
+
+		// wait for request from client
 		data = new byte[128];
 		packet = new DatagramPacket(data, data.length);
-		
+
 		try {
 			receiveSocket.receive(packet);
 		} catch (IOException e) {
 			throw new CommunicationException("Unable to recieve packet");
 		}
-		
+
 		data = packet.getData();
 		System.out.println("Client received (bytes): " + Utils.bytesToHex(data));
 		System.out.println("Client received (string): " + new Packet(data, packet.getLength()).toString());
-		
+
 		respond(packet);
 	}
-	
+
 	public void respond(DatagramPacket packet) throws CommunicationException {
-		
+
 		Packet request = new Packet(packet.getData(), packet.getLength());
-		//check validity of packet
+		// check validity of packet
 		if (!request.isValid()) {
 			throw new CommunicationException("Invalid request received");
 		}
-		
-		try {			
-			//format correct response
-			if (request.getRequest() == Packet.Request.READ) {			
+
+		try {
+			// format correct response
+			if (request.getRequest() == Packet.Request.READ) {
 				data = READ_RESPONSE;
-			} else if (request.getRequest() == Packet.Request.WRITE) {			
+			} else if (request.getRequest() == Packet.Request.WRITE) {
 				data = WRITE_RESPONSE;
 			} else {
 				throw new CommunicationException("Invalid request received");
 			}
-			
-			System.out.print("Server response to " + packet.getAddress().getHostAddress() + ":" + packet.getPort() + " : " + Utils.bytesToHex(data));
-			
-			//send response back to client
+
+			System.out.print("Server responding to " + packet.getAddress().getHostAddress() + ":" + packet.getPort()
+					+ " : " + Utils.bytesToHex(data));
+			System.out.println("Response bytes: " + Utils.bytesToHex(packet.getData()));
+			System.out.println("Response string: ");
+			for (int i = 0; i < packet.getLength(); i++) {
+				System.out.print(data[i] + " ");
+			}
+			System.out.println();
+
+			// send response back to client
 			sendSocket = new DatagramSocket();
 			packet = new DatagramPacket(data, data.length, packet.getAddress(), packet.getPort());
 			sendSocket.send(packet);
 			sendSocket.close();
-			
+
 		} catch (IOException e) {
 			throw new CommunicationException("Unable to respond to request");
 		}
-		
+
 	}
 }

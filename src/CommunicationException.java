@@ -1,20 +1,20 @@
 
 public class CommunicationException extends Exception {
 
-    private static final long serialVersionUID = 4569467572726215310L;
+	private static final long serialVersionUID = 4569467572726215310L;
 
-    public CommunicationException(String s){
+	public CommunicationException(String s) {
 
-        super(s);
-    }
+		super(s);
+	}
 
-    public CommunicationException(Throwable cause){
+	public CommunicationException(Throwable cause) {
 
-        super(cause.getLocalizedMessage(), cause);
-    }
+		super(cause.getLocalizedMessage(), cause);
+	}
 
-    public CommunicationException(String message, Throwable cause){
+	public CommunicationException(String message, Throwable cause) {
 
-        super(cause.getLocalizedMessage() + ": " + message, cause);
-    }
+		super(cause.getLocalizedMessage() + ": " + message, cause);
+	}
 }
