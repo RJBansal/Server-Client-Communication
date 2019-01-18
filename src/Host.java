@@ -1,3 +1,11 @@
+//****************************************************************************
+//
+// Filename: Host.java
+//
+// Description: Host class. Forwards responses from client and server
+//
+//***************************************************************************
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;

@@ -1,3 +1,10 @@
+//****************************************************************************
+//
+// Filename: CommunicationException.java
+//
+// Description: General exception
+//
+//***************************************************************************
 
 public class CommunicationException extends Exception {
 

@@ -1,0 +1,1 @@
+In order to run the applications, Server and Host must be started before the Client

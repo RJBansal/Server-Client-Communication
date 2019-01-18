@@ -1,3 +1,11 @@
+//****************************************************************************
+//
+// Filename: Client.java
+//
+// Description: Client class
+//
+//***************************************************************************
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.DatagramPacket;

@@ -1,3 +1,11 @@
+//****************************************************************************
+//
+// Filename: Packet.java
+//
+// Description: Stores packet information, transcodes into byte data and reverse
+//
+//***************************************************************************
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
@@ -147,17 +155,17 @@ public class Packet {
 
 		StringBuilder string = new StringBuilder();
 		if (request == Request.READ) {
-			string.append(READ[0] + " ");
-			string.append(READ[1] + " ");
+			string.append(READ[0]);
+			string.append(READ[1]);
 		} else if (request == Request.WRITE) {
-			string.append(WRITE[0] + " ");
-			string.append(WRITE[1] + " ");
+			string.append(WRITE[0]);
+			string.append(WRITE[1]);
 		}
-		string.append(mode + " ");
-		string.append(filename + " ");
-		string.append((byte) 0 + " ");
-		string.append(mode + " ");
-		string.append((byte) 0 + " ");
+		string.append(mode);
+		string.append(filename);
+		string.append((byte) 0);
+		string.append(mode);
+		string.append((byte) 0);
 
 		return string.toString();
 	}
